@@ -1,0 +1,127 @@
+@name Ape Hud V4
+@inputs Active [Gun Chair Base]:entity [EGP Cam]:wirelink Gear Speed MainAmmo SecondaryAmmo FrontArmour:entity TurretArmour:entity FrontHealth:entity TurretHealth:entity
+@outputs 
+@persist FrontH:number FrontA:number TurretH:number TurretA:number
+@trigger 
+if(first()||duped()){Kills=0}
+if (changed(Active) & Active)
+{  
+#---------------------------------------------------------------------
+Col1 = vec(255,50,50)
+Thicc = 10
+Shade = 200
+Gear1 = vec2(10,10)
+Ammo1 = vec2(10,10)
+Ammo2 = vec2(10,10)
+AmmoT = vec2(10,10)
+#---------------------------------------------------------------------
+EGP:egpClear()
+ScreenRes = egpScrSize(Chair:driver() ?: owner())
+X = ScreenRes:x()
+Y = ScreenRes:y()
+Res=ScreenRes/2
+Gun:soundPlay(1,0,"acf_wtguns/turretcannonturn/stabilizer.wav")
+    soundPitch(1,0)
+#--------------------------------------------------------------------- Middle Hud
+    EGP:egpCircleOutline(1,Res+vec2(0,0),vec2(10,10)) 
+        EGP:egpColor(1,vec(255,191,0))
+    EGP:egpCircle(2,Res+vec2(0,0),vec2(2,2))
+        EGP:egpColor(2,vec(255,191,0))
+    EGP:egpBox(3,Res+vec2(25,0),vec2(30,1))
+        EGP:egpColor(3,vec(255,191,0))
+    EGP:egpBox(4,Res+vec2(-25,0),vec2(30,1))
+        EGP:egpColor(4,vec(255,191,0))
+    EGP:egpBox(5,Res+vec2(0,15),vec2(1,10))
+        EGP:egpColor(5,vec(255,191,0))
+    EGP:egpBox(6,Res+vec2(0,-15),vec2(1,10))
+        EGP:egpColor(6,vec(255,191,0))
+    EGP:egpBox(7,Res+vec2(0,-40),vec2(1,20))
+        EGP:egpColor(7,vec(255,191,0))
+    EGP:egpBox(8,Res+vec2(0,40),vec2(1,20))
+        EGP:egpColor(8,vec(255,191,0))
+    EGP:egpBox(9,Res+vec2(75,20),vec2(30,1))
+        EGP:egpColor(9,vec(255,191,0))
+    EGP:egpBox(10,Res+vec2(75,-20),vec2(30,1))
+        EGP:egpColor(10,vec(255,191,0))
+    EGP:egpBox(11,Res+vec2(-75,20),vec2(30,1))
+        EGP:egpColor(11,vec(255,191,0))
+    EGP:egpBox(12,Res+vec2(-75,-20),vec2(30,1))
+        EGP:egpColor(12,vec(255,191,0))
+    EGP:egpBox(13,Res+vec2(-125,0),vec2(30,1))
+        EGP:egpColor(13,vec(255,191,0))
+    EGP:egpBox(14,Res+vec2(125,0),vec2(30,1))
+        EGP:egpColor(14,vec(255,191,0))
+#--------------------------------------------------------------------- Ammo Info
+    EGP:egpText(15,"Main Ammo:",Res+vec2(-200,-50))
+        EGP:egpColor(15,vec(255,191,0))
+    EGP:egpText(16,MainAmmo:toString(),Res+vec2(-100,-50))
+        EGP:egpColor(16,vec(255,191,0))
+    if(changed(MainAmmo)){EGP:egpSetText(16,MainAmmo:toString())}
+    EGP:egpText(17,"Secondary Ammo:",Res+vec2(-205,50))    
+        EGP:egpColor(17,vec(255,191,0))
+    EGP:egpText(18,SecondaryAmmo:toString(),Res+vec2(-65,50))
+        EGP:egpColor(18,vec(255,191,0))
+    if(changed(SecondaryAmmo)){EGP:egpSetText(18,SecondaryAmmo:toString())}
+#--------------------------------------------------------------------- Armour Info
+    EGP:egpText(19,"Front L:",Res+vec2(-210,150))
+        EGP:egpColor(19,vec(255,191,0))
+    EGP:egpText(20,"Front R:",Res+vec2(200,150))
+        EGP:egpColor(20,vec(255,191,0))
+    EGP:egpText(21,FrontA:toString(),Res+vec2(-150,150))
+        EGP:egpColor(21,vec(255,191,0))
+    EGP:egpText(22,TurretA:toString(),Res+vec2(260,150))
+        EGP:egpColor(22,vec(255,191,0))
+    EGP:egpText(23,"/",Res+vec2(-115,150))
+        EGP:egpColor(23,vec(255,191,0))
+    EGP:egpText(24,"/",Res+vec2(295,150))
+        EGP:egpColor(24,vec(255,191,0))
+    EGP:egpText(25,FrontH:toString(),Res+vec2(-80,150))
+        EGP:egpColor(25,vec(255,191,0))
+    EGP:egpText(26,TurretH:toString(),Res+vec2(330,150))
+        EGP:egpColor(26,vec(255,191,0))
+#--------------------------------------------------------------------- Speed Info
+    EGP:egpText(27,"Speed:",Res+vec2(200,-10))
+        EGP:egpColor(27,vec(255,191,0))
+    EGP:egpText(28,Speed:toString(),Res+vec2(255,-10))
+        EGP:egpColor(28,vec(255,191,0))
+#--------------------------------------------------------------------- Credits
+    EGP:egpText(29,"Ape Hud V4",Res+vec2(-50,-530))
+        EGP:egpColor(29,vec(255,191,0))
+#--------------------------------------------------------------------- Functions for Ammo/Speed/Health/Armour Counters
+} 
+    interval(100)
+    if(changed(MainAmmo)){EGP:egpSetText(16,MainAmmo:toString())} 
+    if(changed(SecondaryAmmo)){EGP:egpSetText(18,SecondaryAmmo:toString())}
+    if(changed(FrontA)){EGP:egpSetText(21,FrontA:toString())}
+    if(changed(TurretA)){EGP:egpSetText(22,TurretA:toString())}
+    if(changed(FrontH)){EGP:egpSetText(25,FrontH:toString())}
+    if(changed(TurretH)){EGP:egpSetText(26,TurretH:toString())}
+    Speed=round(Speed,0)
+    if(changed(Speed)){EGP:egpSetText(28,Speed:toString())}
+    FrontA=FrontArmour:acfPropArmor()
+    FrontA=round(FrontA,0)
+    
+    if(changed(Gun:acfReady())&!Gun:acfReady()){Gun:soundPlay(1,0,"acf_wtguns/reload/reload_cannon_auto.wav")}
+    if(changed(Gun:acfReady())&Gun:acfReady()){soundStop(1)}
+    
+    soundPitch(1,100)
+    
+    if(changed(Gun:acfReady())&Gun:acfReady()){Gun:soundPlay(2,0,"buttons/blip2.wav")}
+    if(changed(Gun:acfReady())&Gun:acfReady()) {print("SHELL LOADED")}
+    
+    TurretA=TurretArmour:acfPropArmor()
+    TurretA=round(TurretA,0)
+
+    FrontH=FrontHealth:acfPropHealth()
+    FrontH=round(FrontH,0)
+
+    TurretH=TurretHealth:acfPropHealth()
+    TurretH=round(TurretH,0)
+
+    
+    if(dupefinished()){reset()} 
+
+#Health = Prop:acfPropHealth()    
+#MaxHealth = Prop:acfPropHealthMax()    
+#COLOR = (vec(0+255*(1-(Health/MaxHealth)),255*(Health/MaxHealth),0))
+
